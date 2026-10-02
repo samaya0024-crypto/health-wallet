@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Patient Dashboard</h2>
+<div class="mb-3">
+    <a href="{{ url_for('patient.profile') }}" class="btn btn-info me-2">View Profile</a>
+    <a href="{{ url_for('patient.upload_record') }}" class="btn btn-primary me-2">Upload Record</a>
+    <a href="{{ url_for('patient.grant_access') }}" class="btn btn-success">Grant Access</a>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <h4>My Health Records (Off-chain & Blockchain Anchored)</h4>
+        <table class="table table-bordered bg-white">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>SHA-256 Hash</th>
+                    <th>Tx Hash</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in records %}
+                <tr>
+                    <td>{{ r.id }}</td>
+                    <td>{{ r.title }}</td>
+                    <td>{{ r.category }}</td>
+                    <td><small>{{ r.sha256_hash[:16] }}...</small></td>
+                    <td><small>{{ r.tx_hash[:16] }}...</small></td>
+                    <td>{{ r.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="text-center">No records uploaded yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-12 mt-4">
+        <h4>Access Control List</h4>
+        <table class="table table-bordered bg-white">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Record ID</th>
+                    <th>Doctor ID</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in permissions %}
+                <tr>
+                    <td>{{ p.record_id }}</td>
+                    <td>Doctor #{{ p.doctor_id }}</td>
+                    <td><span class="badge bg-{{ 'success' if p.status == 'Granted' else 'danger' }}">{{ p.status }}</span></td>
+                    <td>
+                        {% if p.status == 'Granted' %}
+                        <a href="{{ url_for('patient.revoke_access', perm_id=p.id) }}" class="btn btn-sm btn-danger">Revoke</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

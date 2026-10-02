@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card col-md-6 mx-auto shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h4>Patient Profile Management</h4>
+    </div>
+    <div class="card-body">
+        <p><strong>Name:</strong> {{ current_user.name }}</p>
+        <p><strong>Email:</strong> {{ current_user.email }}</p>
+        <p><strong>Role:</strong> {{ current_user.role|capitalize }}</p>
+        <p><strong>Age / Gender:</strong> {{ current_user.age or 'N/A' }} / {{ current_user.gender or 'N/A' }}</p>
+        <p><strong>Ethereum Wallet Address:</strong> <code>{{ current_user.wallet_address or 'Not Linked' }}</code></p>
+        <hr>
+        <p><strong>Total Records Uploaded:</strong> {{ total_records }}</p>
+        <p><strong>Active Access Grants:</strong> {{ granted_count }}</p>
+    </div>
+</div>
+{% endblock %}

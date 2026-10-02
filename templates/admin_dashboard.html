@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <h4>Registered Patients</h4>
+        <ul class="list-group">
+            {% for p in patients %}
+            <li class="list-group-item">{{ p.name }} ({{ p.email }}) - Wallet: {{ p.wallet_address or 'None' }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <h4>Registered Doctors</h4>
+        <ul class="list-group">
+            {% for d in doctors %}
+            <li class="list-group-item">Dr. {{ d.name }} ({{ d.email }})</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<h4 class="mt-5">All Health Record SHA-256 Hashes</h4>
+<table class="table table-sm table-bordered bg-white">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Patient</th>
+            <th>Title</th>
+            <th>SHA-256 Hash</th>
+            <th>Tx Hash</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in records %}
+        <tr>
+            <td>{{ r.id }}</td>
+            <td>{{ r.patient.name }}</td>
+            <td>{{ r.title }}</td>
+            <td><code>{{ r.sha256_hash }}</code></td>
+            <td><code>{{ r.tx_hash }}</code></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h4 class="mt-5">Blockchain & System Audit Trails</h4>
+<table class="table table-sm table-striped bg-white">
+    <thead>
+        <tr>
+            <th>Timestamp</th>
+            <th>Accessor ID</th>
+            <th>Record ID</th>
+            <th>Action Log</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for log in logs %}
+        <tr>
+            <td>{{ log.timestamp }}</td>
+            <td>User #{{ log.accessor_id }}</td>
+            <td>{{ log.record_id }}</td>
+            <td>{{ log.action }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

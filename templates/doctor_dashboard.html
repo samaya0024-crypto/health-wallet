@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Doctor Dashboard</h2>
+<p class="text-muted">View and Decrypt Authorized Patient Health Records</p>
+
+<h4 class="mt-4">Authorized Patient Records</h4>
+<table class="table table-striped bg-white">
+    <thead class="table-primary">
+        <tr>
+            <th>Record ID</th>
+            <th>Patient ID</th>
+            <th>Record Title</th>
+            <th>Category</th>
+            <th>SHA-256 Hash Integrity</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in permissions %}
+        <tr>
+            <td>{{ p.record.id }}</td>
+            <td>Patient #{{ p.patient_id }}</td>
+            <td>{{ p.record.title }}</td>
+            <td>{{ p.record.category }}</td>
+            <td><code>{{ p.record.sha256_hash[:16] }}...</code></td>
+            <td>
+                <a href="{{ url_for('doctor.decrypt_and_view', record_id=p.record.id) }}" class="btn btn-sm btn-outline-primary" target="_blank">Decrypt & View</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="text-center">No authorized records assigned to you yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h4 class="mt-5">Access Audit Logs</h4>
+<table class="table table-bordered bg-white">
+    <thead>
+        <tr>
+            <th>Time</th>
+            <th>Record ID</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for h in history %}
+        <tr>
+            <td>{{ h.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            <td>{{ h.record_id }}</td>
+            <td>{{ h.action }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-md-6 mx-auto">
+    <div class="card">
+        <div class="card-header">Upload Medical Record</div>
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label>Record Title</label>
+                    <input type="text" name="title" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label>Category</label>
+                    <select name="category" class="form-select" required>
+                        <option value="Lab Reports">Lab Reports</option>
+                        <option value="Prescriptions">Prescriptions</option>
+                        <option value="Scan Images">Scan Images - X-Ray, MRI</option>
+                        <option value="Discharge Summaries">Discharge Summaries</option>
+                        <option value="Vaccination Records">Vaccination Records</option>
+                        <option value="Other Medical Documents">Other Medical Documents</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label>Select File</label>
+                    <input type="file" name="file" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Encrypt & Store on Blockchain</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

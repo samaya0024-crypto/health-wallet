@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-md-6 mx-auto">
+    <div class="card">
+        <div class="card-header">Grant Access to Doctor</div>
+        <div class="card-body">
+            <form method="POST">
+                <div class="mb-3">
+                    <label>Select Health Record</label>
+                    <select name="record_id" class="form-select" required>
+                        {% for r in records %}
+                        <option value="{{ r.id }}">{{ r.title }} ({{ r.category }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label>Select Doctor</label>
+                    <select name="doctor_id" class="form-select" required>
+                        {% for d in doctors %}
+                        <option value="{{ d.id }}">Dr. {{ d.name }} ({{ d.email }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Grant Access</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
